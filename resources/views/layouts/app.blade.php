@@ -109,8 +109,9 @@
                     </div>
                 </div>
             </div>
-            <div class="border-t mt-8 pt-6 text-center">
+            <div class="border-t mt-8 pt-6 flex justify-between">
                 <p class="text-xs text-gray-400">&copy; {{ date('Y') }} {{ setting('store_name', 'Soeka Mitra Grosir') }}. All rights reserved.</p>
+                <p class="text-xs text-gray-400">Design by <a href="https://koderpedia.com" target="_blank" class="text-green-600 hover:underline">koderpedia</a></p>
             </div>
         </div>
     </footer>

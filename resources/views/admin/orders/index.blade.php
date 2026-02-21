@@ -7,8 +7,8 @@
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari no. pesanan / nama..." class="border border-gray-200 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-green-500 outline-none">
             <select name="status" onchange="this.form.submit()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white outline-none">
                 <option value="">Semua Status</option>
-                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Menunggu Pembayaran</option>
-                <option value="paid" {{ request('status') == 'paid' ? 'selected' : '' }}>Sudah Dibayar</option>
+                <option value="pending_payment" {{ request('status') == 'pending_payment' ? 'selected' : '' }}>Menunggu Pembayaran</option>
+                <option value="payment_confirmed" {{ request('status') == 'payment_confirmed' ? 'selected' : '' }}>Pembayaran Dikonfirmasi</option>
                 <option value="processing" {{ request('status') == 'processing' ? 'selected' : '' }}>Diproses</option>
                 <option value="shipped" {{ request('status') == 'shipped' ? 'selected' : '' }}>Dikirim</option>
                 <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Selesai</option>

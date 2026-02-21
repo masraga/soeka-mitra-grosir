@@ -21,12 +21,12 @@
 
                 {{-- Update Status --}}
                 @if(!in_array($order->status, ['completed', 'cancelled']))
-                <form action="{{ route('admin.orders.updateStatus', $order) }}" method="POST" class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                <form action="{{ route('admin.orders.status', $order) }}" method="POST" class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
                     @csrf @method('PATCH')
                     <label class="text-sm font-medium text-gray-700 shrink-0">Ubah Status:</label>
                     <select name="status" class="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white flex-1 outline-none">
-                        <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Menunggu Pembayaran</option>
-                        <option value="paid" {{ $order->status == 'paid' ? 'selected' : '' }}>Sudah Dibayar</option>
+                        <option value="pending_payment" {{ $order->status == 'pending_payment' ? 'selected' : '' }}>Menunggu Pembayaran</option>
+                        <option value="payment_confirmed" {{ $order->status == 'payment_confirmed' ? 'selected' : '' }}>Pembayaran Dikonfirmasi</option>
                         <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>Diproses</option>
                         <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>Dikirim</option>
                         <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Selesai</option>
@@ -104,7 +104,7 @@
             </div>
 
             {{-- Payment Deadline --}}
-            @if($order->status === 'pending' && $order->payment_deadline)
+            @if($order->status === 'pending_payment' && $order->payment_deadline)
             <div class="bg-yellow-50 rounded-xl border border-yellow-200 p-6">
                 <h3 class="text-sm font-semibold text-yellow-800 mb-2">Batas Pembayaran</h3>
                 <p class="text-sm text-yellow-700">{{ $order->payment_deadline->format('d/m/Y H:i') }} WIB</p>

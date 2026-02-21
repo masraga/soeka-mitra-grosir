@@ -227,14 +227,14 @@ Beras & Gandum, Minyak Goreng, Gula & Garam, Tepung, Mie & Pasta, Susu & Olahan,
 
 **Status Enum Values:**
 
-| Value               | Label (Indonesia)       | Color  |
-| ------------------- | ----------------------- | ------ |
-| `pending_payment`   | Menunggu Pembayaran     | yellow |
-| `payment_confirmed` | Pembayaran Dikonfirmasi | blue   |
-| `processing`        | Diproses                | indigo |
-| `shipped`           | Dikirim                 | purple |
-| `completed`         | Selesai                 | green  |
-| `cancelled`         | Dibatalkan              | red    |
+| Value               | Label (Indonesia)       | CSS Class (status_color)        |
+| ------------------- | ----------------------- | ------------------------------- |
+| `pending_payment`   | Menunggu Pembayaran     | `bg-yellow-100 text-yellow-800` |
+| `payment_confirmed` | Pembayaran Dikonfirmasi | `bg-blue-100 text-blue-800`     |
+| `processing`        | Diproses                | `bg-indigo-100 text-indigo-800` |
+| `shipped`           | Dikirim                 | `bg-purple-100 text-purple-800` |
+| `completed`         | Selesai                 | `bg-green-100 text-green-800`   |
+| `cancelled`         | Dibatalkan              | `bg-red-100 text-red-800`       |
 
 ### Model: `App\Models\Order`
 
@@ -252,7 +252,7 @@ Beras & Gandum, Minyak Goreng, Gula & Garam, Tepung, Mie & Pasta, Susu & Olahan,
 - `is_expired: bool` — `true` jika status `pending_payment` dan deadline sudah lewat
 - `time_remaining: ?string` — Human-readable sisa waktu, atau `'Kedaluwarsa'`
 - `status_label: string` — Label Indonesia dari status
-- `status_color: string` — Warna CSS class untuk badge
+- `status_color: string` — Tailwind CSS class untuk badge (contoh: `'bg-yellow-100 text-yellow-800'`)
 
 **Static Methods:**
 

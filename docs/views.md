@@ -242,18 +242,18 @@ Digunakan oleh: semua halaman admin
 
 ### `admin/orders/index.blade.php`
 
-- Search input + status dropdown filter
-- Table: order_number (mono font), nama pelanggan + phone, total, status badge, tanggal, link detail
+- Search input + status dropdown filter (values: `pending_payment`, `payment_confirmed`, `processing`, `shipped`, `completed`, `cancelled`)
+- Table: order_number (mono font), nama pelanggan + phone, total, status badge (menggunakan `status_color` accessor), tanggal, link detail
 
 ### `admin/orders/show.blade.php`
 
-- Order header: number, tanggal, status badge
-- **Update status form** — Dropdown semua status + tombol "Update" (kecuali completed/cancelled)
+- Order header: number, tanggal, status badge (menggunakan `status_color` accessor → Tailwind CSS classes)
+- **Update status form** — Route: `admin.orders.status`, method PATCH. Dropdown status values: `pending_payment`, `payment_confirmed`, `processing`, `shipped`, `completed`, `cancelled` (kecuali jika status sudah completed/cancelled)
 - Items table: gambar, nama, qty × harga, subtotal
 - Financial summary: subtotal, ongkir (+ nama layanan), total
 - Sidebar:
     - Data pelanggan (nama, telepon, alamat, catatan)
-    - Payment deadline info (jika pending) + expired warning
+    - Payment deadline info (jika status `pending_payment`) + expired warning
     - Bukti pembayaran (image preview, klik untuk full size)
 
 ### `admin/shipping/index.blade.php`
