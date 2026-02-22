@@ -296,19 +296,31 @@ Database (settings table)
 
 ---
 
-## 8. Slider Banner
+## 8. Banner Homepage
+
+### Konsep
+
+Banner di homepage menggunakan gambar statis dari folder `public/banner/`. Tidak lagi menggunakan model `Slider` dari database.
 
 ### Alur
 
-1. Admin upload slider via panel admin (title, subtitle, image, link, sort_order, is_active)
-2. Homepage menampilkan slider aktif, diurutkan by sort_order
-3. Alpine.js carousel: autoplay 5 detik, prev/next, dot navigation
+1. Letakkan file gambar ke folder `public/banner/`
+2. Homepage otomatis membaca semua gambar dari folder tersebut
+3. Gambar diurutkan berdasarkan nama file (ascending)
+4. Alpine.js carousel: autoplay 5 detik, prev/next, dot navigation (jika lebih dari 1 gambar)
 
-### Rekomendasi Gambar
+### Format Gambar yang Didukung
 
-- Ukuran: **1200 × 400 piksel**
-- Format: JPEG, PNG, JPG, WebP
-- Max size: 2 MB
+- Ekstensi: JPG, JPEG, PNG, WebP, GIF
+- Rekomendasi ukuran: **1200 × 400 piksel**
+
+### Menambah/Menghapus Banner
+
+- **Tambah:** Upload file gambar ke `public/banner/`
+- **Hapus:** Hapus file gambar dari `public/banner/`
+- **Urutan:** Gunakan nama file untuk mengatur urutan (contoh: `01-promo.jpg`, `02-diskon.jpg`)
+
+> **Catatan:** Tabel `sliders` dan model `Slider` masih ada di database tetapi tidak lagi digunakan oleh homepage. Fitur CRUD slider di admin panel masih tersedia.
 
 ---
 

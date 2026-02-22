@@ -32,7 +32,7 @@
 6. **Batas waktu pembayaran dinamis** — Diatur admin via Settings (default: 1 jam)
 7. **Lacak pesanan** — Cari dengan nomor pesanan + nomor telepon
 8. **Layanan pengiriman** — Master data pengiriman dikelola admin
-9. **Slider banner** — Banner promosi di homepage
+9. **Banner homepage** — Banner promosi statis dari folder `public/banner/`
 10. **Panel admin lengkap** — CRUD produk, kategori, pesanan, pengiriman, slider, settings
 
 ## Daftar Dokumentasi

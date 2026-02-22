@@ -206,5 +206,5 @@ Menunggu Pembayaran → Dibatalkan (manual atau auto-cancel)
 
 1. Tambah/update stok produk secara berkala
 2. Update harga jika ada perubahan
-3. Ganti slider banner untuk promosi baru
+3. Ganti banner promosi di folder `public/banner/` (upload gambar baru, hapus yang lama)
 4. Cek Settings → pastikan info bank masih benar

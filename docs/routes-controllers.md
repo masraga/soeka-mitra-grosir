@@ -16,7 +16,7 @@
 
 | Method | URI                                  | Name               | Controller@Method                     | Keterangan                                |
 | ------ | ------------------------------------ | ------------------ | ------------------------------------- | ----------------------------------------- |
-| GET    | `/`                                  | `home`             | `HomeController@index`                | Homepage: slider + 12 produk terbaru      |
+| GET    | `/`                                  | `home`             | `HomeController@index`                | Homepage: banner + 12 produk terbaru      |
 | GET    | `/products`                          | `products.index`   | `ProductController@index`             | Listing produk + search + filter kategori |
 | GET    | `/products/{slug}`                   | `products.show`    | `ProductController@show`              | Detail produk by slug                     |
 | GET    | `/cart`                              | `cart.index`       | `CartController@index`                | Halaman keranjang                         |
@@ -88,9 +88,10 @@
 
 ```
 index()
-├── Slider::active()->get()
+├── Scan folder public/banner/ untuk file gambar (jpg, jpeg, png, webp, gif)
+├── Sort by filename ascending
 ├── Product::active()->where('stock', '>', 0)->latest()->take(12)->get()
-└── return view('home', compact('sliders', 'latestProducts'))
+└── return view('home', compact('banners', 'latestProducts'))
 ```
 
 ### `ProductController` (Storefront)

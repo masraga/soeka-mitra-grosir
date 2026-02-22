@@ -19,7 +19,7 @@ soeka-mitra-grosir/
 │   │   │   │   ├── ShippingServiceController.php
 │   │   │   │   ├── SliderController.php
 │   │   │   │   └── SettingController.php
-│   │   │   ├── HomeController.php         # Homepage storefront
+│   │   │   ├── HomeController.php         # Homepage storefront (banner dari public/banner/)
 │   │   │   ├── ProductController.php      # Listing & detail produk
 │   │   │   ├── CartController.php         # Keranjang (session-based)
 │   │   │   ├── CheckoutController.php     # Proses checkout

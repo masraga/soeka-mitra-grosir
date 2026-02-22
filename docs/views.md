@@ -86,12 +86,12 @@ Digunakan oleh: semua halaman admin
 
 **Komponen:**
 
-1. **Slider Carousel** — Alpine.js component
-    - `x-data="{ current: 0, total: {{ count($sliders) }}, autoplay: null }"`
-    - Auto-rotate setiap 5 detik (`setInterval`)
-    - Tombol prev/next + dot indicators
-    - Menampilkan title, subtitle, link "Belanja Sekarang"
-    - Background: gradient hijau jika tidak ada image
+1. **Banner Carousel** — Alpine.js component
+    - `x-data="{ current: 0, slides: {{ $banners->count() }}, autoplay: null }"`
+    - Membaca gambar statis dari folder `public/banner/`
+    - Auto-rotate setiap 5 detik (`setInterval`), hanya jika lebih dari 1 gambar
+    - Tombol prev/next + dot indicators (jika lebih dari 1 gambar)
+    - Gambar ditampilkan full-width tanpa overlay teks
 
 2. **Produk Terbaru** — Grid 2/3/4 kolom (responsive)
     - Card produk: image, nama, kategori, harga
@@ -291,7 +291,7 @@ Digunakan oleh: semua halaman admin
 | ---------------------------- | ------------------ | --------------------------------- |
 | `layouts/app.blade.php`      | Flash message      | Auto-dismiss setelah 4 detik      |
 | `layouts/admin.blade.php`    | Sidebar toggle     | Responsive sidebar show/hide      |
-| `home.blade.php`             | Slider carousel    | Autoplay, prev/next, dots         |
+| `home.blade.php`             | Banner carousel    | Autoplay, prev/next, dots         |
 | `products/show.blade.php`    | Quantity counter   | +/- buttons untuk qty input       |
 | `checkout/index.blade.php`   | Shipping cost calc | Dynamic total saat pilih shipping |
 | `checkout/success.blade.php` | Countdown timer    | Hitung mundur ke payment deadline |
