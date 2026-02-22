@@ -16,7 +16,11 @@
         next() { this.current = (this.current + 1) % this.slides },
         prev() { this.current = (this.current - 1 + this.slides) % this.slides }
     }" class="relative bg-green-700 overflow-hidden">
-        <div class="relative h-64 sm:h-80 md:h-96">
+        <div class="relative">
+            {{-- Gambar pertama sebagai placeholder untuk menentukan tinggi container (invisible, tidak interaktif) --}}
+            <img src="{{ asset('banner/' . $banners->first()) }}" alt="" class="w-full h-auto block invisible" aria-hidden="true">
+
+            {{-- Slide gambar (absolute, overlay di atas placeholder) --}}
             @foreach($banners as $index => $banner)
             <div x-show="current === {{ $index }}"
                  x-transition:enter="transition ease-out duration-500"
@@ -26,7 +30,7 @@
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"
                  class="absolute inset-0">
-                <img src="{{ asset('banner/' . $banner) }}" alt="Banner {{ $index + 1 }}" class="w-full h-full object-cover">
+                <img src="{{ asset('banner/' . $banner) }}" alt="Banner {{ $index + 1 }}" class="w-full h-auto block">
             </div>
             @endforeach
         </div>

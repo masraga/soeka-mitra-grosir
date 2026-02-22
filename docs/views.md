@@ -92,6 +92,7 @@ Digunakan oleh: semua halaman admin
     - Auto-rotate setiap 5 detik (`setInterval`), hanya jika lebih dari 1 gambar
     - Tombol prev/next + dot indicators (jika lebih dari 1 gambar)
     - Gambar ditampilkan full-width tanpa overlay teks
+    - Tinggi banner ditentukan oleh gambar pertama sebagai placeholder (invisible), semua slide di-overlay secara absolute agar container tidak collapse saat berganti slide
 
 2. **Produk Terbaru** — Grid 2/3/4 kolom (responsive)
     - Card produk: image, nama, kategori, harga
