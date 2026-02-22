@@ -108,7 +108,11 @@ soeka-mitra-grosir/
 │   └── console.php                        # Scheduler: orders:cancel-expired
 ├── public/
 │   ├── build/                             # Vite build output (commit ke git)
-│   └── storage -> ../storage/app/public   # Symlink storage
+│   └── uploads/                           # Folder upload file (products, categories, sliders, proofs)
+│       ├── products/
+│       ├── categories/
+│       ├── sliders/
+│       └── proofs/
 ├── docs/                                  # Dokumentasi ini
 └── .env                                   # Environment config (JANGAN commit)
 ```
@@ -193,4 +197,4 @@ Browser Request
 3. **Views** — Blade template dengan Alpine.js untuk interaktivitas (carousel, counter, dll)
 4. **Routes** — Grouped by concern: storefront, auth, admin, setup
 5. **Session** — Cart disimpan sebagai array di session key `cart`
-6. **Image Upload** — Disimpan ke `storage/app/public/{folder}`, diakses via `asset('storage/...')`
+6. **Image Upload** — Disimpan ke `public/uploads/{folder}`, diakses via `asset('uploads/...')`

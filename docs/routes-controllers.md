@@ -76,9 +76,9 @@
 
 ### Setup Route (HAPUS setelah deploy pertama!)
 
-| Method | URI              | Keterangan                                                        |
-| ------ | ---------------- | ----------------------------------------------------------------- |
-| GET    | `/setup/{token}` | Jalankan migrate + seed + storage:link. Token: `soeka-setup-2026` |
+| Method | URI              | Keterangan                                                               |
+| ------ | ---------------- | ------------------------------------------------------------------------ |
+| GET    | `/setup/{token}` | Jalankan migrate + seed + buat folder uploads. Token: `soeka-setup-2026` |
 
 ---
 
@@ -200,7 +200,7 @@ update(Request, Product) → Validate, handle image replace, product->update()
 destroy(Product) → Delete image from storage + product->delete()
 ```
 
-**Image upload:** Disimpan ke `storage/app/public/products/`, format file asli.
+**Image upload:** Disimpan ke `public/uploads/products/`, format file asli.
 
 ### `Admin\CategoryController`
 

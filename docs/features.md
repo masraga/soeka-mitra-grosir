@@ -131,7 +131,7 @@ Ini memastikan data pesanan tetap akurat meskipun harga/nama produk berubah di k
 3. Pelanggan transfer ke rekening bank
 4. Pelanggan buka /track-order → masukkan order_number + phone
 5. Upload bukti pembayaran (foto/screenshot)
-   - File disimpan ke storage/app/public/proofs/
+   - File disimpan ke public/uploads/proofs/
    - Kolom payment_proof di orders diupdate
 6. Admin cek bukti pembayaran di panel admin
 7. Admin ubah status ke 'payment_confirmed'

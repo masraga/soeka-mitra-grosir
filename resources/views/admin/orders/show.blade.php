@@ -46,7 +46,7 @@
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 bg-gray-100 rounded-lg overflow-hidden shrink-0">
                                 @if($item->product && $item->product->image)
-                                    <img src="{{ asset('storage/' . $item->product->image) }}" class="w-full h-full object-cover">
+                                    <img src="{{ asset('uploads/' . $item->product->image) }}" class="w-full h-full object-cover">
                                 @endif
                             </div>
                             <div>
@@ -120,8 +120,8 @@
             <div class="bg-white rounded-xl border border-gray-100 p-6">
                 <h3 class="text-sm font-semibold text-gray-800 mb-3">Bukti Pembayaran</h3>
                 @if($order->payment_proof)
-                    <a href="{{ asset('storage/' . $order->payment_proof) }}" target="_blank" class="block">
-                        <img src="{{ asset('storage/' . $order->payment_proof) }}" class="w-full rounded-lg border hover:opacity-90 transition" alt="Bukti pembayaran">
+                    <a href="{{ asset('uploads/' . $order->payment_proof) }}" target="_blank" class="block">
+                        <img src="{{ asset('uploads/' . $order->payment_proof) }}" class="w-full rounded-lg border hover:opacity-90 transition" alt="Bukti pembayaran">
                     </a>
                     <p class="text-xs text-gray-500 mt-2">Klik gambar untuk membuka ukuran penuh</p>
                 @else

@@ -23,7 +23,7 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">Gambar</label>
                     @if($slider->image)
                         <div class="mb-2">
-                            <img src="{{ asset('storage/' . $slider->image) }}" class="w-full max-w-xs rounded-lg border">
+                            <img src="{{ asset('uploads/' . $slider->image) }}" class="w-full max-w-xs rounded-lg border">
                         </div>
                     @endif
                     <input type="file" name="image" accept="image/*" class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-green-50 file:text-green-700 file:text-sm">

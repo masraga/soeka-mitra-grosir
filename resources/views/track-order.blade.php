@@ -125,7 +125,7 @@
             @if($order->payment_proof)
                 <div class="mb-3">
                     <p class="text-sm text-green-600 font-medium">✓ Bukti pembayaran sudah diupload</p>
-                    <img src="{{ asset('storage/' . $order->payment_proof) }}" alt="Bukti Pembayaran" class="mt-2 rounded-lg max-w-xs border">
+                    <img src="{{ asset('uploads/' . $order->payment_proof) }}" alt="Bukti Pembayaran" class="mt-2 rounded-lg max-w-xs border">
                 </div>
             @else
                 <form action="{{ route('track.upload', $order->order_number) }}" method="POST" enctype="multipart/form-data">
@@ -144,7 +144,7 @@
         @elseif($order->payment_proof)
         <div class="px-6 py-4 border-b">
             <h3 class="text-sm font-semibold text-gray-900 mb-2">Bukti Pembayaran</h3>
-            <img src="{{ asset('storage/' . $order->payment_proof) }}" alt="Bukti Pembayaran" class="rounded-lg max-w-xs border">
+            <img src="{{ asset('uploads/' . $order->payment_proof) }}" alt="Bukti Pembayaran" class="rounded-lg max-w-xs border">
         </div>
         @endif
 

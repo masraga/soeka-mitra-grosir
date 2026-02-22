@@ -35,7 +35,7 @@
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 bg-gray-100 rounded-lg overflow-hidden shrink-0">
                                     @if($product->image)
-                                        <img src="{{ asset('storage/' . $product->image) }}" class="w-full h-full object-cover">
+                                        <img src="{{ asset('uploads/' . $product->image) }}" class="w-full h-full object-cover">
                                     @endif
                                 </div>
                                 <span class="text-sm font-medium text-gray-900">{{ $product->name }}</span>

@@ -47,7 +47,11 @@ Upload **semua file** ke hosting kecuali:
 │   ├── robots.txt
 │   ├── .htaccess
 │   ├── build/             ← Vite build output
-│   └── storage/           ← Symlink (buat manual)
+│   └── uploads/           ← Folder upload file (BUKAN symlink)
+│       ├── products/
+│       ├── categories/
+│       ├── sliders/
+│       └── proofs/
 │
 └── laravel/               ← Folder aplikasi (di LUAR public_html)
     ├── app/
@@ -113,23 +117,27 @@ Ini akan menjalankan:
 
 1. `php artisan migrate` — Buat semua tabel
 2. `php artisan db:seed` — Isi data awal (admin, kategori, produk, dll)
-3. `php artisan storage:link` — Buat symlink storage
+3. Membuat folder `uploads/` di `public/` (products, categories, sliders, proofs)
 
 > ⚠️ **PENTING:** Setelah berhasil, HAPUS atau disable route setup di `routes/web.php` untuk keamanan!
 
-### 6. Buat Storage Symlink (Manual, jika setup route gagal)
+### 6. Buat Folder Uploads (Manual, jika setup route gagal)
 
-Jika symlink tidak bisa dibuat via route, buat manual via File Manager hosting:
+Jika folder uploads tidak terbuat via route setup, buat manual via File Manager hosting:
 
 ```
-public_html/storage → ../laravel/storage/app/public
+public_html/uploads/products/
+public_html/uploads/categories/
+public_html/uploads/sliders/
+public_html/uploads/proofs/
 ```
 
 Atau via SSH (jika tersedia):
 
 ```bash
 cd /home/username/public_html
-ln -s ../laravel/storage/app/public storage
+mkdir -p uploads/products uploads/categories uploads/sliders uploads/proofs
+chmod -R 775 uploads/
 ```
 
 ### 7. Setup Cron Job
@@ -150,8 +158,8 @@ Di cPanel → Cron Jobs, tambahkan:
 chmod -R 775 storage/
 chmod -R 775 bootstrap/cache/
 
-# Jika ada masalah upload gambar
-chmod -R 775 storage/app/public/
+# Folder uploads harus writable
+chmod -R 775 public_html/uploads/
 ```
 
 ---
@@ -167,8 +175,9 @@ chmod -R 775 storage/app/public/
 
 ### Gambar tidak tampil
 
-1. Pastikan symlink `public_html/storage` → `../laravel/storage/app/public` sudah benar
-2. Cek file gambar ada di `laravel/storage/app/public/products/` (atau `sliders/`, `proofs/`, `categories/`)
+1. Pastikan folder `public_html/uploads/` beserta subfolder (products, categories, sliders, proofs) sudah ada
+2. Pastikan permission folder `uploads/` dan subfoldernya adalah 775
+3. Cek file gambar ada di `public_html/uploads/products/` (atau `sliders/`, `proofs/`, `categories/`)
 
 ### Session tidak bekerja
 
@@ -186,7 +195,7 @@ chmod -R 775 storage/app/public/
 ### Upload gambar gagal
 
 1. Cek `php.ini`: `upload_max_filesize` >= 2M, `post_max_size` >= 8M
-2. Cek permission folder `storage/app/public/` (775)
+2. Cek permission folder `public_html/uploads/` dan subfoldernya (775)
 3. Cek PHP extension `fileinfo` aktif
 
 ---

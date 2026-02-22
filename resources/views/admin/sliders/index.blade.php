@@ -12,7 +12,7 @@
         <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
             <div class="aspect-[16/6] bg-gray-100">
                 @if($slider->image)
-                    <img src="{{ asset('storage/' . $slider->image) }}" class="w-full h-full object-cover">
+                    <img src="{{ asset('uploads/' . $slider->image) }}" class="w-full h-full object-cover">
                 @endif
             </div>
             <div class="p-4">

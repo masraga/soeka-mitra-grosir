@@ -91,8 +91,14 @@ Route::get('/setup/{token}', function (string $token) {
     Artisan::call('db:seed', ['--force' => true]);
     $seed = Artisan::output();
 
-    Artisan::call('storage:link');
-    $link = Artisan::output();
+    // Buat folder uploads di public jika belum ada
+    $uploadDirs = ['products', 'categories', 'sliders', 'proofs'];
+    foreach ($uploadDirs as $dir) {
+        $path = public_path('uploads/' . $dir);
+        if (!is_dir($path)) {
+            mkdir($path, 0775, true);
+        }
+    }
 
-    return "<pre>== MIGRATE ==\n{$migrate}\n== SEED ==\n{$seed}\n== STORAGE LINK ==\n{$link}</pre>";
+    return "<pre>== MIGRATE ==\n{$migrate}\n== SEED ==\n{$seed}\n== UPLOAD DIRS == Created successfully</pre>";
 });
