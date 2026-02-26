@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" width="600" height="200">
+  <defs>
+    <!-- Gradient untuk background icon -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2D7A3A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1B5E28;stop-opacity:1" />
+    </linearGradient>
+    <!-- Gradient untuk aksen emas -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5A623;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D4891C;stop-opacity:1" />
+    </linearGradient>
+    <!-- Shadow filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#00000033"/>
+    </filter>
+  </defs>
+
+  <!-- === ICON SECTION: Shopping Bag with Grain === -->
+  
+  <!-- Rounded square background -->
+  <rect x="15" y="25" width="150" height="150" rx="28" ry="28" fill="url(#bgGrad)" filter="url(#shadow)"/>
+  
+  <!-- Shopping bag body -->
+  <path d="M55 85 L50 155 Q50 162 57 162 L123 162 Q130 162 130 155 L125 85 Q125 80 120 78 L60 78 Q55 80 55 85Z" 
+        fill="#FFFFFF" opacity="0.95" stroke="none"/>
+  
+  <!-- Bag handle -->
+  <path d="M72 78 L72 60 Q72 45 90 45 Q108 45 108 60 L108 78" 
+        fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.95"/>
+  
+  <!-- Wheat/grain icon inside bag -->
+  <!-- Left wheat stalk -->
+  <line x1="80" y1="140" x2="80" y2="100" stroke="#2D7A3A" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="76" cy="105" rx="4" ry="8" fill="url(#goldGrad)" transform="rotate(-15 76 105)"/>
+  <ellipse cx="84" cy="110" rx="4" ry="8" fill="url(#goldGrad)" transform="rotate(15 84 110)"/>
+  <ellipse cx="76" cy="118" rx="4" ry="8" fill="url(#goldGrad)" transform="rotate(-15 76 118)"/>
+  <ellipse cx="84" cy="123" rx="4" ry="8" fill="url(#goldGrad)" transform="rotate(15 84 123)"/>
+  <ellipse cx="80" cy="100" rx="3.5" ry="7" fill="url(#goldGrad)" transform="rotate(0 80 100)"/>
+
+  <!-- Right wheat stalk -->
+  <line x1="100" y1="140" x2="100" y2="100" stroke="#2D7A3A" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="96" cy="105" rx="4" ry="8" fill="url(#goldGrad)" transform="rotate(-15 96 105)"/>
+  <ellipse cx="104" cy="110" rx="4" ry="8" fill="url(#goldGrad)" transform="rotate(15 104 110)"/>
+  <ellipse cx="96" cy="118" rx="4" ry="8" fill="url(#goldGrad)" transform="rotate(-15 96 118)"/>
+  <ellipse cx="104" cy="123" rx="4" ry="8" fill="url(#goldGrad)" transform="rotate(15 104 123)"/>
+  <ellipse cx="100" cy="100" rx="3.5" ry="7" fill="url(#goldGrad)" transform="rotate(0 100 100)"/>
+
+  <!-- Small leaf at bottom of bag -->
+  <path d="M85 138 Q90 130 95 138" fill="none" stroke="#2D7A3A" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- === TEXT SECTION === -->
+  
+  <!-- "SOEKA" - Bold primary text -->
+  <text x="185" y="82" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" 
+        font-size="52" font-weight="800" fill="#1B5E28" letter-spacing="3">SOEKA</text>
+  
+  <!-- "MITRA" - Medium weight -->
+  <text x="185" y="128" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" 
+        font-size="42" font-weight="600" fill="#2D7A3A" letter-spacing="2">MITRA</text>
+
+  <!-- Decorative line -->
+  <line x1="185" y1="140" x2="400" y2="140" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- "GROSIR" - Tagline style -->
+  <text x="185" y="166" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" 
+        font-size="28" font-weight="700" fill="url(#goldGrad)" letter-spacing="8">GROSIR</text>
+  
+  <!-- Tagline kecil -->
+  <text x="358" y="166" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" 
+        font-size="13" font-weight="400" fill="#666666" letter-spacing="1">Sembako Berkualitas</text>
+
+  <!-- Small decorative dots -->
+  <circle cx="182" cy="95" r="2.5" fill="url(#goldGrad)"/>
+  <circle cx="182" cy="105" r="2.5" fill="url(#goldGrad)"/>
+  <circle cx="182" cy="115" r="2.5" fill="url(#goldGrad)"/>
+</svg>

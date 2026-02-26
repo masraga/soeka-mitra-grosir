@@ -1,0 +1,246 @@
+# Ringkasan Aplikasi Soeka Mitra Grosir
+
+---
+
+## 1. Deskripsi Model Bisnis
+
+**Soeka Mitra Grosir** adalah aplikasi toko online berbasis web untuk penjualan produk **sembako** (sembilan bahan pokok) yang dibangun menggunakan **Laravel 12**.
+
+### Target Pengguna
+
+| Aktor                 | Deskripsi                                                                                                 |
+| --------------------- | --------------------------------------------------------------------------------------------------------- |
+| **Pelanggan (Guest)** | Pembeli yang bisa langsung belanja **tanpa perlu membuat akun/login**. Cukup isi data diri saat checkout. |
+| **Admin**             | Pengelola toko yang mengelola seluruh operasional melalui panel admin (`/admin`)                          |
+
+### Konsep Bisnis Utama
+
+- **Tanpa registrasi pelanggan** — Pelanggan langsung browse, pilih produk, isi keranjang, dan checkout dengan mengisi nama, telepon, dan alamat saat proses checkout.
+- **Pembayaran manual via transfer bank** — Tidak menggunakan payment gateway. Pelanggan transfer ke rekening bank toko, lalu upload bukti pembayaran.
+- **Verifikasi manual oleh admin** — Admin mengecek bukti pembayaran dan mengubah status pesanan secara manual.
+- **Produk sembako** — Menjual 10 kategori produk seperti Beras & Gandum, Minyak Goreng, Gula & Garam, Tepung, Mie & Pasta, dll.
+- **Deployment target: shared hosting** — Dirancang untuk berjalan di shared hosting tanpa akses SSH penuh, menggunakan database driver untuk session & cache, dan sync queue.
+
+### Tech Stack
+
+| Komponen        | Teknologi              |
+| --------------- | ---------------------- |
+| Backend         | Laravel 12.x, PHP 8.2+ |
+| Database        | MySQL 8.x              |
+| Frontend CSS    | Tailwind CSS v4        |
+| JS Interaktif   | Alpine.js 3.x (CDN)    |
+| Build Tool      | Vite 7.x               |
+| Session & Cache | Database Driver        |
+
+---
+
+## 2. Deskripsi Lengkap Fungsi Website
+
+### A. Storefront (Halaman Pelanggan)
+
+#### 1. Homepage
+
+- **Banner Carousel** — Menampilkan gambar promosi dari folder `public/banner/` dengan Alpine.js carousel (autoplay 5 detik, navigasi prev/next, dot indicators).
+- **Produk Terbaru** — Menampilkan 12 produk terbaru yang aktif dan tersedia stok, dalam grid responsive 2/3/4 kolom.
+
+#### 2. Katalog Produk
+
+- **Pencarian** — Search bar untuk mencari produk berdasarkan nama.
+- **Filter kategori** — Dropdown untuk filter berdasarkan kategori.
+- **Product grid** — Menampilkan produk dengan card (gambar, nama, kategori, harga) + pagination.
+
+#### 3. Detail Produk
+
+- Gambar besar, nama, kategori, harga, deskripsi lengkap.
+- **Quantity selector** — Alpine.js +/- buttons untuk mengatur jumlah.
+- **Add to cart** — Tombol tambah ke keranjang.
+- **Produk terkait** — Grid 4 produk dari kategori yang sama.
+
+#### 4. Keranjang Belanja
+
+Cart berbasis **session** (bukan database):
+
+- Tabel item: gambar, nama, harga, quantity input, subtotal per item.
+- Update quantity, hapus item, clear all.
+- Summary: total items, subtotal, tombol lanjut ke checkout.
+- Empty state jika keranjang kosong.
+
+#### 5. Checkout
+
+- Form data pelanggan: nama, telepon, alamat, catatan.
+- Pilih layanan pengiriman (dropdown dari master data admin).
+- Ringkasan pesanan + kalkulasi dinamis (subtotal + ongkir = total).
+
+#### 6. Halaman Sukses Checkout
+
+- Icon sukses + nomor pesanan.
+- **Countdown timer** ke batas waktu pembayaran (Alpine.js, format HH:MM:SS).
+- Info transfer bank (dari `setting()`: bank_name, bank_account_number, bank_account_name).
+- Detail pesanan: items, subtotal, ongkir, total.
+- Link ke halaman lacak pesanan + link ke beranda.
+
+#### 7. Lacak Pesanan
+
+- **Form pencarian** — Nomor pesanan + nomor telepon (keamanan: harus cocok keduanya).
+- **Hasil pesanan**: status badge berwarna, countdown timer (jika pending), data pelanggan, daftar item, total + ongkir.
+- **Upload bukti bayar** — Form upload gambar (max 2MB, JPEG/PNG/JPG) jika status `pending_payment` dan belum expired.
+- **Preview bukti bayar** — Jika sudah diupload.
+
+### B. Panel Admin (`/admin`)
+
+| Menu           | Fungsi                                                                                                                |
+| -------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **Dashboard**  | Statistik: total produk, total pesanan, pesanan pending, pendapatan hari ini + 10 pesanan terbaru                     |
+| **Produk**     | CRUD produk + search + filter kategori. Field: nama, kategori, harga, stok, deskripsi, gambar, status aktif           |
+| **Kategori**   | CRUD kategori produk. Field: nama, gambar                                                                             |
+| **Pesanan**    | Lihat semua pesanan + search + filter status. Detail: info pelanggan, items, keuangan, bukti bayar, **update status** |
+| **Pengiriman** | CRUD layanan pengiriman. Field: nama, deskripsi, biaya, estimasi, urutan, status aktif                                |
+| **Slider**     | CRUD slider/banner (model Slider masih ada tapi homepage sudah pakai folder statis `public/banner/`)                  |
+| **Pengaturan** | Edit settings pembayaran (deadline, info bank) dan toko (nama, alamat, telepon, deskripsi)                            |
+
+### C. Fitur Sistem Otomatis
+
+#### Auto-Cancel Pesanan Expired
+
+- Pesanan dengan status `pending_payment` yang melewati `payment_deadline` otomatis dibatalkan.
+- **Stok dikembalikan** saat pesanan di-cancel.
+- Dijalankan via artisan command `orders:cancel-expired` + cron job setiap 5 menit.
+
+#### Settings System
+
+- Key-value store di database dengan cache (`Cache::rememberForever`).
+- Diakses via global helper `setting()`.
+- Cache otomatis dihapus saat admin mengubah setting.
+
+---
+
+## 3. Deskripsi Lengkap Proses Bisnis Sistem
+
+### Alur Lengkap: Dari Browse hingga Pesanan Selesai
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                   PELANGGAN (GUEST)                      │
+└─────────────────────────────────────────────────────────┘
+
+TAHAP 1: BROWSING
+─────────────────
+Pelanggan → Buka homepage (/)
+         → Lihat banner promosi + 12 produk terbaru
+         → Buka katalog (/products) → search/filter kategori
+         → Klik produk → lihat detail (/products/{slug})
+
+TAHAP 2: KERANJANG
+──────────────────
+Pelanggan → Pilih quantity → Klik "Tambah ke Keranjang"
+         → Sistem simpan ke SESSION (bukan database)
+         → Validasi: produk aktif, stok > 0, qty tidak melebihi stok
+         → Buka keranjang (/cart) → update qty / hapus item
+         → Klik "Lanjut ke Checkout"
+
+TAHAP 3: CHECKOUT
+─────────────────
+Pelanggan → Isi form: nama, telepon, alamat, catatan (opsional)
+         → Pilih layanan pengiriman
+         → Sistem:
+           ├── Re-validasi stok semua item
+           ├── DB::beginTransaction()
+           │   ├── Buat Order (status: pending_payment)
+           │   │   ├── Generate order_number: ORD-YYYYMMDD-XXXXX
+           │   │   ├── Set payment_deadline: now() + payment_deadline_hours
+           │   │   └── Snapshot: shipping_service_name + shipping_cost
+           │   ├── Buat OrderItem per produk (snapshot: product_name + price)
+           │   ├── Kurangi stok produk (Product::decrement)
+           │   └── DB::commit()
+           ├── Hapus cart dari session
+           └── Redirect ke halaman sukses
+
+TAHAP 4: PEMBAYARAN
+────────────────────
+Pelanggan → Lihat halaman sukses:
+           ├── Nomor pesanan
+           ├── Countdown timer batas pembayaran
+           ├── Info bank: BCA - 1234567890 a.n. Soeka Mitra Grosir
+           └── Total yang harus ditransfer
+         → Transfer ke rekening bank toko
+         → Buka halaman lacak pesanan (/track-order)
+         → Masukkan: nomor pesanan + nomor telepon
+         → Upload foto bukti transfer (max 2MB, JPEG/PNG/JPG)
+         → File disimpan ke public/uploads/proofs/
+
+         ⚠️ JIKA TIDAK BAYAR DALAM BATAS WAKTU:
+         → Cron job (setiap 5 menit) menjalankan orders:cancel-expired
+         → Status berubah ke "cancelled"
+         → Stok produk dikembalikan otomatis
+```
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                      ADMIN                               │
+└─────────────────────────────────────────────────────────┘
+
+TAHAP 5: VERIFIKASI PEMBAYARAN
+───────────────────────────────
+Admin → Login ke /admin/login (admin@soekamitra.com)
+     → Buka Dashboard → lihat pesanan pending
+     → Buka Pesanan → filter status "Sudah Dibayar"
+     → Klik detail pesanan
+     → Cek bukti pembayaran (preview gambar, klik untuk full-size)
+     → Jika valid → Update status ke "Pembayaran Dikonfirmasi"
+
+TAHAP 6: PROSES & KIRIM
+────────────────────────
+Admin → Pack/siapkan pesanan
+     → Update status ke "Diproses"
+     → Serahkan ke kurir/layanan pengiriman
+     → Update status ke "Dikirim"
+     → (Opsional) Hubungi pelanggan via telepon/WA
+
+TAHAP 7: SELESAI
+─────────────────
+Admin → Setelah pelanggan konfirmasi terima barang
+     → Update status ke "Selesai"
+```
+
+### Flow Status Pesanan
+
+```
+pending_payment (Menunggu Pembayaran) 🟡
+    │
+    ├──→ payment_confirmed (Pembayaran Dikonfirmasi) 🔵
+    │       │
+    │       └──→ processing (Diproses) 🟣
+    │               │
+    │               └──→ shipped (Dikirim) 🟣
+    │                       │
+    │                       └──→ completed (Selesai) 🟢
+    │
+    └──→ cancelled (Dibatalkan) 🔴
+         (manual oleh admin ATAU auto-cancel jika expired)
+```
+
+| Status              | Label                   | Warna Badge | Trigger                            |
+| ------------------- | ----------------------- | ----------- | ---------------------------------- |
+| `pending_payment`   | Menunggu Pembayaran     | Kuning      | Saat checkout berhasil             |
+| `payment_confirmed` | Pembayaran Dikonfirmasi | Biru        | Admin verifikasi bukti bayar       |
+| `processing`        | Diproses                | Indigo      | Admin mulai packing                |
+| `shipped`           | Dikirim                 | Ungu        | Admin serahkan ke kurir            |
+| `completed`         | Selesai                 | Hijau       | Pelanggan konfirmasi terima        |
+| `cancelled`         | Dibatalkan              | Merah       | Manual admin / auto-cancel expired |
+
+### Pengembalian Stok
+
+Ketika pesanan dibatalkan (baik manual maupun auto-cancel), **stok produk otomatis dikembalikan** ke jumlah semula.
+
+### Alur Harian Admin
+
+1. **Pagi**: Login → cek dashboard → filter pesanan "Sudah Dibayar" → verifikasi bukti bayar → ubah status ke "Diproses"
+2. **Saat memproses**: Pack pesanan → ubah status ke "Dikirim" → informasikan pelanggan via telepon/WA
+3. **Saat selesai**: Pelanggan konfirmasi terima → ubah status ke "Selesai"
+4. **Maintenance**: Update stok, update harga, ganti banner promosi, cek settings info bank
+
+### Detail Website
+Nama website: http://soekamitragrosir.com/
+Nama penyedia layanan: Rumahweb
+Alamat IP: 203.175.9.67
+Nama penyimpanan data website: cloud hosting indonesia
