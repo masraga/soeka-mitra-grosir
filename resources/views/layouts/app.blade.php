@@ -106,6 +106,7 @@
                         <a href="{{ route('home') }}" class="block text-sm text-gray-500 hover:text-green-600">Beranda</a>
                         <a href="{{ route('products.index') }}" class="block text-sm text-gray-500 hover:text-green-600">Produk</a>
                         <a href="{{ route('track.index') }}" class="block text-sm text-gray-500 hover:text-green-600">Lacak Pesanan</a>
+                        <a href="{{ route('terms-privacy') }}" class="block text-sm text-gray-500 hover:text-green-600">Ketentuan & Privasi</a>
                     </div>
                 </div>
             </div>
