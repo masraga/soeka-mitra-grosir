@@ -114,9 +114,9 @@
                 Jika Anda memiliki pertanyaan tentang ketentuan penggunaan atau kebijakan privasi ini, silakan hubungi kami melalui:
             </p>
             <div class="mt-4 text-gray-600">
-                <p>Email: admin@soekamitra.com</p>
-                <p>Telepon: [Nomor telepon Anda]</p>
-                <p>Alamat: [Alamat toko Anda]</p>
+                <p>Email: soekamitragrosir@gmail.com</p>
+                <p>Telepon: 0895600060506</p>
+                <p>Alamat: Vanya Park Cluster Azura Blok C19/36, Desa/Kelurahan Pagedangan, Kec. Pagedangan, Kab. Tangerang, Provinsi Banten, Kode Pos: 15336</p>
             </div>
         </section>
     </div>
