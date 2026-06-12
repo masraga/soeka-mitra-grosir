@@ -15,8 +15,9 @@
                     <input type="text" name="order_number" value="{{ old('order_number', request('order_number')) }}" placeholder="ORD-XXXXXXXX-XXXXX" required class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
-                    <input type="text" name="customer_phone" value="{{ old('customer_phone') }}" placeholder="08xxxxxxxxxx" required class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon atau Email</label>
+                    <input type="text" name="customer_identity" value="{{ old('customer_identity') }}" placeholder="08xxxxxxxxxx atau nama@email.com" required class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                    @error('customer_identity') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                 </div>
                 <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg transition text-sm">
                     Lacak Pesanan
@@ -76,9 +77,10 @@
         <div class="px-6 py-4 border-b">
             <h3 class="text-sm font-semibold text-gray-900 mb-2">Info Pemesan</h3>
             <div class="text-sm text-gray-600 space-y-1">
-                <p>{{ $order->customer_name }}</p>
-                <p>{{ $order->customer_phone }}</p>
-                <p>{{ $order->customer_address }}</p>
+                <p class="font-medium text-gray-900">{{ $order->customer_full_name }}</p>
+                <p>{{ $order->customer_email ?: '-' }}</p>
+                @if($order->customer_phone)<p>{{ $order->customer_phone }}</p>@endif
+                <p class="whitespace-pre-line">{{ $order->customer_formatted_address }}</p>
                 @if($order->notes) <p class="italic">"{{ $order->notes }}"</p> @endif
             </div>
         </div>
@@ -130,7 +132,7 @@
             @else
                 <form action="{{ route('track.upload', $order->order_number) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="customer_phone" value="{{ $order->customer_phone }}">
+                    <input type="hidden" name="customer_identity" value="{{ $trackingIdentity }}">
                     <div class="space-y-3">
                         <input type="file" name="payment_proof" accept="image/*" required class="w-full text-sm border border-gray-200 rounded-lg file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
                         @error('payment_proof') <p class="text-xs text-red-500">{{ $message }}</p> @enderror

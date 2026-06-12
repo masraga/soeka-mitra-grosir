@@ -211,9 +211,18 @@ Beras & Gandum, Minyak Goreng, Gula & Garam, Tepung, Mie & Pasta, Susu & Olahan,
 | ---------------------- | ------------------- | ----------------------------------- |
 | id                     | bigint (PK)         | Auto increment                      |
 | order_number           | varchar(255) UNIQUE | Format: `ORD-YYYYMMDD-XXXXX`        |
-| customer_name          | varchar(255)        | Nama pelanggan                      |
-| customer_phone         | varchar(255)        | Nomor telepon                       |
-| customer_address       | text                | Alamat lengkap                      |
+| customer_name          | varchar(255)        | Snapshot nama lengkap (kompatibilitas) |
+| customer_first_name    | varchar(255) NULL   | Nama depan                          |
+| customer_last_name     | varchar(255) NULL   | Nama belakang                       |
+| customer_email         | varchar(255) NULL   | Email pelanggan                     |
+| customer_phone         | varchar(255) NULL   | Nomor telepon opsional              |
+| customer_country_code  | char(2) NULL        | Kode negara ISO                     |
+| customer_address       | text                | Snapshot alamat lengkap             |
+| customer_address_line_1| text NULL           | Nomor rumah dan nama jalan          |
+| customer_address_line_2| text NULL           | Apartemen/unit/detail tambahan      |
+| customer_city          | varchar(255) NULL   | Kota                                |
+| customer_province      | varchar(255) NULL   | Provinsi/state                      |
+| customer_postal_code   | varchar(32) NULL    | Kode pos                            |
 | notes                  | text NULL           | Catatan tambahan                    |
 | shipping_service_id    | bigint (FK)         | → shipping_services.id              |
 | shipping_service_name  | varchar(255)        | Snapshot nama layanan saat checkout |
@@ -238,7 +247,7 @@ Beras & Gandum, Minyak Goreng, Gula & Garam, Tepung, Mie & Pasta, Susu & Olahan,
 
 ### Model: `App\Models\Order`
 
-**Fillable:** `order_number`, `customer_name`, `customer_phone`, `customer_address`, `notes`, `shipping_service_id`, `shipping_service_name`, `shipping_cost`, `subtotal`, `total_price`, `status`, `payment_proof`, `payment_deadline`
+**Fillable:** mencakup snapshot legacy (`customer_name`, `customer_address`), semua field pelanggan terstruktur, data pengiriman, total, status, dan pembayaran.
 
 **Casts:** `subtotal` → integer, `total_price` → integer, `shipping_cost` → integer, `payment_deadline` → datetime
 
@@ -249,6 +258,9 @@ Beras & Gandum, Minyak Goreng, Gula & Garam, Tepung, Mie & Pasta, Susu & Olahan,
 
 **Accessors:**
 
+- `customer_full_name: string` — Gabungkan nama depan/belakang, fallback ke `customer_name`
+- `customer_country: ?string` — Nama negara dari kode negara
+- `customer_formatted_address: string` — Alamat terstruktur, fallback ke `customer_address`
 - `is_expired: bool` — `true` jika status `pending_payment` dan deadline sudah lewat
 - `time_remaining: ?string` — Human-readable sisa waktu, atau `'Kedaluwarsa'`
 - `status_label: string` — Label Indonesia dari status

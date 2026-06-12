@@ -4,7 +4,7 @@
 @section('content')
     <div class="flex items-center justify-between mb-6">
         <form action="{{ route('admin.orders.index') }}" method="GET" class="flex gap-3">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari no. pesanan / nama..." class="border border-gray-200 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-green-500 outline-none">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari pesanan / nama / email / telepon..." class="border border-gray-200 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-green-500 outline-none">
             <select name="status" onchange="this.form.submit()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white outline-none">
                 <option value="">Semua Status</option>
                 <option value="pending_payment" {{ request('status') == 'pending_payment' ? 'selected' : '' }}>Menunggu Pembayaran</option>
@@ -35,8 +35,11 @@
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3 text-sm font-mono font-medium text-gray-900">{{ $order->order_number }}</td>
                         <td class="px-6 py-3">
-                            <div class="text-sm font-medium text-gray-900">{{ $order->customer_name }}</div>
-                            <div class="text-xs text-gray-500">{{ $order->customer_phone }}</div>
+                            <div class="text-sm font-medium text-gray-900">{{ $order->customer_full_name }}</div>
+                            <div class="text-xs text-gray-500">{{ $order->customer_email ?: '-' }}</div>
+                            @if($order->customer_phone)
+                                <div class="text-xs text-gray-400">{{ $order->customer_phone }}</div>
+                            @endif
                         </td>
                         <td class="px-6 py-3 text-sm font-medium text-gray-900">{{ format_rupiah($order->total_price) }}</td>
                         <td class="px-6 py-3">

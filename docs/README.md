@@ -26,7 +26,7 @@
 
 1. **Storefront tanpa login** — Pelanggan langsung belanja tanpa perlu daftar akun
 2. **Keranjang belanja (session-based)** — Disimpan di session, bukan database
-3. **Checkout dengan data pelanggan** — Nama, telepon, alamat diisi saat checkout
+3. **Checkout dengan data pelanggan** — Nama, email, telepon opsional, dan alamat terstruktur
 4. **Pembayaran transfer bank** — Upload bukti pembayaran via halaman tracking
 5. **Auto-cancel pesanan** — Pesanan expired otomatis dibatalkan + stok dikembalikan
 6. **Batas waktu pembayaran dinamis** — Diatur admin via Settings (default: 1 jam)

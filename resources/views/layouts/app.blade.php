@@ -90,7 +90,7 @@
     {{-- Footer --}}
     <footer class="bg-white border-t mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div>
                     <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ setting('store_name', 'Soeka Mitra Grosir') }}</h3>
                     <p class="text-sm text-gray-500">{{ setting('store_description', 'Toko grosir sembako terpercaya') }}</p>
@@ -101,12 +101,22 @@
                     <p class="text-sm text-gray-500">{{ setting('store_address', '-') }}</p>
                 </div>
                 <div>
-                    <h3 class="text-sm font-semibold text-gray-900 mb-3">Menu</h3>
+                    <h3 class="text-sm font-semibold text-gray-900 mb-3">Tautan cepat</h3>
                     <div class="space-y-2">
                         <a href="{{ route('home') }}" class="block text-sm text-gray-500 hover:text-green-600">Beranda</a>
                         <a href="{{ route('products.index') }}" class="block text-sm text-gray-500 hover:text-green-600">Produk</a>
                         <a href="{{ route('track.index') }}" class="block text-sm text-gray-500 hover:text-green-600">Lacak Pesanan</a>
                         <a href="{{ route('terms-privacy') }}" class="block text-sm text-gray-500 hover:text-green-600">Ketentuan & Privasi</a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900 mb-3">Kategori Produk</h3>
+                    <div class="space-y-2">
+                        @foreach($footerCategories as $category)
+                            <a href="{{ route('products.index', ['category' => $category->slug]) }}" class="block text-sm text-gray-500 hover:text-green-600">
+                                {{ $category->name }}
+                            </a>
+                        @endforeach
                     </div>
                 </div>
             </div>

@@ -73,7 +73,7 @@
                         <td class="px-6 py-3">
                             <a href="{{ route('admin.orders.show', $order) }}" class="text-sm font-medium text-green-600 hover:text-green-700">{{ $order->order_number }}</a>
                         </td>
-                        <td class="px-6 py-3 text-sm text-gray-600">{{ $order->customer_name }}</td>
+                        <td class="px-6 py-3 text-sm text-gray-600">{{ $order->customer_full_name }}</td>
                         <td class="px-6 py-3 text-sm font-medium text-gray-900">{{ format_rupiah($order->total_price) }}</td>
                         <td class="px-6 py-3">
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium

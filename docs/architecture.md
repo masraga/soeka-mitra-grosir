@@ -41,6 +41,7 @@ soeka-mitra-grosir/
 ├── bootstrap/
 │   └── app.php                            # Middleware alias 'admin' terdaftar di sini
 ├── config/                                # Konfigurasi Laravel standar
+│   └── locations.php                      # Negara + provinsi Indonesia untuk checkout
 ├── database/
 │   ├── migrations/
 │   │   ├── 0001_01_01_000000_create_users_table.php        # Default Laravel
@@ -53,7 +54,8 @@ soeka-mitra-grosir/
 │   │   ├── 2026_02_21_000005_create_shipping_services_table.php
 │   │   ├── 2026_02_21_000006_create_orders_table.php
 │   │   ├── 2026_02_21_000007_create_order_items_table.php
-│   │   └── 2026_02_21_000008_create_sliders_table.php
+│   │   ├── 2026_02_21_000008_create_sliders_table.php
+│   │   └── 2026_06_12_000001_add_structured_customer_fields_to_orders_table.php
 │   └── seeders/
 │       ├── DatabaseSeeder.php             # Orchestrator: admin user + semua seeder
 │       ├── SettingSeeder.php              # 8 settings (payment + store)
@@ -198,3 +200,4 @@ Browser Request
 4. **Routes** — Grouped by concern: storefront, auth, admin, setup
 5. **Session** — Cart disimpan sebagai array di session key `cart`
 6. **Image Upload** — Disimpan ke `public/uploads/{folder}`, diakses via `asset('uploads/...')`
+7. **Checkout Address** — Negara memakai kode ISO 2 karakter; provinsi Indonesia memakai daftar lokal

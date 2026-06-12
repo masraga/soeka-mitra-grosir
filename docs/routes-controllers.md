@@ -131,7 +131,8 @@ index()
 └── return view('checkout.index')
 
 store(Request)
-├── Validate: customer_name, customer_phone, customer_address, shipping_service_id, notes
+├── Validate: split name, email, optional phone, structured address, shipping_service_id, notes
+├── Validate country code + province Indonesia dari config/locations.php
 ├── Cek stok semua item di cart
 ├── DB::beginTransaction()
 │   ├── Order::create() dengan generateOrderNumber() + payment_deadline
@@ -151,12 +152,13 @@ success(string $orderNumber)
 index()  → return view('track-order')
 
 track(Request)
-├── Validate: order_number, customer_phone
-├── Order::where(order_number + phone)->with('items')->first()
+├── Validate: order_number, customer_identity
+├── Cari berdasarkan order_number + phone/email
 └── return view('track-order', compact('order'))
 
 uploadProof(Request, string $orderNumber)
-├── Validate: payment_proof (image, max 2MB), customer_phone
+├── Validate: payment_proof (image, max 2MB), customer_identity
+├── Verifikasi phone/email terhadap order
 ├── Cek status === 'pending_payment' dan belum expired
 ├── Store file ke 'proofs' disk
 ├── order->update(['payment_proof' => $path])
@@ -217,7 +219,7 @@ destroy() → TOLAK jika masih punya produk, hapus image + delete
 ### `Admin\OrderController`
 
 ```
-index(Request) → Filter status + search (order_number/name/phone), paginate 15
+index(Request) → Filter status + search (order_number/first name/last name/email/phone), paginate 15
 show(Order)    → load items, return view
 updateStatus(Request, Order)
 ├── Validate status in enum values

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class OrderTrackingController extends Controller
 {
@@ -16,32 +17,44 @@ class OrderTrackingController extends Controller
     {
         $request->validate([
             'order_number' => 'required|string',
-            'customer_phone' => 'required|string',
+            'customer_identity' => 'required|string',
         ]);
 
         $order = Order::where('order_number', $request->order_number)
-            ->where('customer_phone', $request->customer_phone)
+            ->where(function ($query) use ($request) {
+                $identity = trim($request->customer_identity);
+
+                $query->where('customer_phone', $identity)
+                    ->orWhereRaw('LOWER(customer_email) = ?', [Str::lower($identity)]);
+            })
             ->with('items')
             ->first();
 
-        if (!$order) {
+        if (! $order) {
             return back()
                 ->withInput()
-                ->with('error', 'Pesanan tidak ditemukan. Pastikan nomor pesanan dan nomor telepon benar.');
+                ->with('error', 'Pesanan tidak ditemukan. Pastikan nomor pesanan dan telepon atau email benar.');
         }
 
-        return view('track-order', compact('order'));
+        $trackingIdentity = trim($request->customer_identity);
+
+        return view('track-order', compact('order', 'trackingIdentity'));
     }
 
     public function uploadProof(Request $request, string $orderNumber)
     {
         $request->validate([
             'payment_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'customer_phone' => 'required|string',
+            'customer_identity' => 'required|string',
         ]);
 
         $order = Order::where('order_number', $orderNumber)
-            ->where('customer_phone', $request->customer_phone)
+            ->where(function ($query) use ($request) {
+                $identity = trim($request->customer_identity);
+
+                $query->where('customer_phone', $identity)
+                    ->orWhereRaw('LOWER(customer_email) = ?', [Str::lower($identity)]);
+            })
             ->firstOrFail();
 
         if ($order->status !== 'pending_payment') {

@@ -77,18 +77,23 @@ Plus tabel **10 pesanan terbaru**.
 
 **Fitur:**
 
-- Cari berdasarkan nomor pesanan, nama, atau telepon
+- Cari berdasarkan nomor pesanan, nama depan/belakang, email, atau telepon
 - Filter berdasarkan status
 - Lihat detail pesanan
 - Update status pesanan
 
 **Detail Pesanan menampilkan:**
 
-- Informasi pelanggan (nama, telepon, alamat, catatan)
+- Nama depan dan nama belakang sebagai field terpisah
+- Email dan nomor telepon opsional
+- Negara/wilayah, alamat jalan, detail alamat, kota, provinsi, dan kode pos
+- Catatan pesanan jika tersedia
 - Daftar item pesanan (gambar, nama, qty, harga, subtotal)
 - Ringkasan keuangan (subtotal, ongkir, total)
 - Batas waktu pembayaran + sisa waktu
 - Bukti pembayaran (klik untuk full-size)
+
+> Pesanan lama yang belum memiliki data alamat terstruktur tetap menampilkan nama dan alamat legacy.
 
 **Alur Status:**
 
@@ -195,7 +200,7 @@ Menunggu Pembayaran → Dibatalkan (manual atau auto-cancel)
 
 1. Pack pesanan
 2. Ubah status ke "Dikirim" setelah serahkan ke kurir
-3. Informasikan pelanggan via telepon/WA (nomor ada di detail pesanan)
+3. Informasikan pelanggan via email atau telepon/WA jika nomor tersedia
 
 ### Saat Selesai
 

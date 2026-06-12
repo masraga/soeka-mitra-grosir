@@ -143,7 +143,9 @@ Digunakan oleh: semua halaman admin
 
 **Komponen:**
 
-1. **Customer form** — Nama, telepon, alamat, catatan
+1. **Customer form** — Nama depan/belakang, negara, 2 baris alamat, kota, provinsi/state, kode pos, telepon opsional, email, catatan
+    - Negara default Indonesia
+    - Provinsi berupa dropdown untuk Indonesia dan input teks untuk negara lain
 2. **Shipping options** — Radio buttons, `@click="shippingCost = {{ $service->cost }}"`
 3. **Order summary sidebar** — Daftar item, subtotal, ongkir (dynamic), total (dynamic)
 4. **Submit button** — POST ke `checkout.store`
@@ -171,11 +173,11 @@ Digunakan oleh: semua halaman admin
 
 **Komponen:**
 
-1. **Search form** — Order number + phone, POST ke `track.search`
+1. **Search form** — Order number + telepon/email, POST ke `track.search`
 2. **Order result** (jika ditemukan):
     - Status badge (warna sesuai `status_color`)
     - Countdown timer (jika pending_payment)
-    - Customer info
+    - Customer info + alamat terstruktur
     - Order items table
     - Total + ongkir
 3. **Upload bukti bayar** (jika status = pending_payment dan belum expired):
@@ -244,7 +246,8 @@ Digunakan oleh: semua halaman admin
 ### `admin/orders/index.blade.php`
 
 - Search input + status dropdown filter (values: `pending_payment`, `payment_confirmed`, `processing`, `shipped`, `completed`, `cancelled`)
-- Table: order_number (mono font), nama pelanggan + phone, total, status badge (menggunakan `status_color` accessor), tanggal, link detail
+- Search mendukung nomor pesanan, nama depan/belakang, email, dan telepon
+- Table: order_number (mono font), nama pelanggan, email, telepon jika tersedia, total, status badge, tanggal, link detail
 
 ### `admin/orders/show.blade.php`
 
@@ -253,7 +256,8 @@ Digunakan oleh: semua halaman admin
 - Items table: gambar, nama, qty × harga, subtotal
 - Financial summary: subtotal, ongkir (+ nama layanan), total
 - Sidebar:
-    - Data pelanggan (nama, telepon, alamat, catatan)
+    - Data pelanggan terstruktur: nama depan, nama belakang, email, telepon, negara/wilayah, alamat jalan, detail alamat, kota, provinsi, kode pos, dan catatan
+    - Fallback nama/alamat legacy untuk pesanan lama
     - Payment deadline info (jika status `pending_payment`) + expired warning
     - Bukti pembayaran (image preview, klik untuk full size)
 

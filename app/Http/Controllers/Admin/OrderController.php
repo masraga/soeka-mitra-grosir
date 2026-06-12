@@ -18,9 +18,12 @@ class OrderController extends Controller
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('order_number', 'like', '%' . $request->search . '%')
-                  ->orWhere('customer_name', 'like', '%' . $request->search . '%')
-                  ->orWhere('customer_phone', 'like', '%' . $request->search . '%');
+                $q->where('order_number', 'like', '%'.$request->search.'%')
+                    ->orWhere('customer_name', 'like', '%'.$request->search.'%')
+                    ->orWhere('customer_first_name', 'like', '%'.$request->search.'%')
+                    ->orWhere('customer_last_name', 'like', '%'.$request->search.'%')
+                    ->orWhere('customer_email', 'like', '%'.$request->search.'%')
+                    ->orWhere('customer_phone', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -32,6 +35,7 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $order->load('items');
+
         return view('admin.orders.show', compact('order'));
     }
 

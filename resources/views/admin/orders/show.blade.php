@@ -81,24 +81,75 @@
             {{-- Customer --}}
             <div class="bg-white rounded-xl border border-gray-100 p-6">
                 <h3 class="text-sm font-semibold text-gray-800 mb-3">Data Pelanggan</h3>
-                <div class="space-y-2 text-sm">
-                    <div>
-                        <span class="text-gray-500">Nama:</span>
-                        <p class="font-medium text-gray-900">{{ $order->customer_name }}</p>
+                <div class="divide-y divide-gray-100 text-sm">
+                    @if($order->customer_first_name || $order->customer_last_name)
+                        <div class="grid grid-cols-2 gap-3 py-2 first:pt-0">
+                            <div>
+                                <span class="text-gray-500">Nama Depan:</span>
+                                <p class="font-medium text-gray-900">{{ $order->customer_first_name ?: '-' }}</p>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Nama Belakang:</span>
+                                <p class="font-medium text-gray-900">{{ $order->customer_last_name ?: '-' }}</p>
+                            </div>
+                        </div>
+                    @else
+                        <div class="py-2 first:pt-0">
+                            <span class="text-gray-500">Nama:</span>
+                            <p class="font-medium text-gray-900">{{ $order->customer_full_name }}</p>
+                        </div>
+                    @endif
+
+                    <div class="py-2">
+                        <span class="text-gray-500">Email:</span>
+                        <p class="font-medium text-gray-900 break-all">{{ $order->customer_email ?: '-' }}</p>
                     </div>
-                    <div>
+                    <div class="py-2">
                         <span class="text-gray-500">Telepon:</span>
-                        <p class="font-medium text-gray-900">{{ $order->customer_phone }}</p>
+                        <p class="font-medium text-gray-900">{{ $order->customer_phone ?: '-' }}</p>
                     </div>
-                    <div>
-                        <span class="text-gray-500">Alamat:</span>
-                        <p class="font-medium text-gray-900">{{ $order->customer_address }}</p>
-                    </div>
+
+                    @if($order->customer_address_line_1)
+                        <div class="py-2">
+                            <span class="text-gray-500">Negara/Wilayah:</span>
+                            <p class="font-medium text-gray-900">{{ $order->customer_country ?: '-' }}</p>
+                        </div>
+                        <div class="py-2">
+                            <span class="text-gray-500">Alamat Jalan:</span>
+                            <p class="font-medium text-gray-900">{{ $order->customer_address_line_1 }}</p>
+                        </div>
+                        @if($order->customer_address_line_2)
+                            <div class="py-2">
+                                <span class="text-gray-500">Detail Alamat:</span>
+                                <p class="font-medium text-gray-900">{{ $order->customer_address_line_2 }}</p>
+                            </div>
+                        @endif
+                        <div class="grid grid-cols-2 gap-3 py-2">
+                            <div>
+                                <span class="text-gray-500">Kota:</span>
+                                <p class="font-medium text-gray-900">{{ $order->customer_city ?: '-' }}</p>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Provinsi:</span>
+                                <p class="font-medium text-gray-900">{{ $order->customer_province ?: '-' }}</p>
+                            </div>
+                        </div>
+                        <div class="py-2">
+                            <span class="text-gray-500">Kode Pos:</span>
+                            <p class="font-medium text-gray-900">{{ $order->customer_postal_code ?: '-' }}</p>
+                        </div>
+                    @else
+                        <div class="py-2">
+                            <span class="text-gray-500">Alamat Pengiriman:</span>
+                            <p class="font-medium text-gray-900 whitespace-pre-line">{{ $order->customer_address }}</p>
+                        </div>
+                    @endif
+
                     @if($order->notes)
-                    <div>
-                        <span class="text-gray-500">Catatan:</span>
-                        <p class="font-medium text-gray-900">{{ $order->notes }}</p>
-                    </div>
+                        <div class="py-2 last:pb-0">
+                            <span class="text-gray-500">Catatan:</span>
+                            <p class="font-medium text-gray-900 whitespace-pre-line">{{ $order->notes }}</p>
+                        </div>
                     @endif
                 </div>
             </div>

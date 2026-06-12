@@ -3,6 +3,8 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" x-data="{
+    country: @js(old('customer_country_code', 'ID')),
+    province: @js(old('customer_province', '')),
     shippingCost: 0,
     subtotal: {{ cart_total() }},
     setShipping(cost) {
@@ -25,24 +27,82 @@
                 <div class="bg-white rounded-xl border border-gray-100 p-6">
                     <h2 class="text-lg font-semibold text-gray-900 mb-4">Data Pemesan</h2>
                     <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap *</label>
-                            <input type="text" name="customer_name" value="{{ old('customer_name') }}" required class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
-                            @error('customer_name') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nama depan <span class="text-red-500">*</span></label>
+                                <input type="text" name="customer_first_name" value="{{ old('customer_first_name') }}" required autocomplete="given-name" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                                @error('customer_first_name') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nama belakang <span class="text-red-500">*</span></label>
+                                <input type="text" name="customer_last_name" value="{{ old('customer_last_name') }}" required autocomplete="family-name" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                                @error('customer_last_name') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                            </div>
                         </div>
+
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon *</label>
-                            <input type="text" name="customer_phone" value="{{ old('customer_phone') }}" required placeholder="08xxxxxxxxxx" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Negara/Wilayah <span class="text-red-500">*</span></label>
+                            <select name="customer_country_code" x-model="country" @change="province = ''" required autocomplete="country" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                                @foreach($countries as $code => $countryName)
+                                    <option value="{{ $code }}" {{ old('customer_country_code', 'ID') === $code ? 'selected' : '' }}>{{ $countryName }}</option>
+                                @endforeach
+                            </select>
+                            @error('customer_country_code') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Alamat jalan <span class="text-red-500">*</span></label>
+                            <input type="text" name="customer_address_line_1" value="{{ old('customer_address_line_1') }}" required autocomplete="address-line1" placeholder="Nomor rumah dan nama jalan" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                            @error('customer_address_line_1') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label for="customer_address_line_2" class="sr-only">Detail alamat tambahan</label>
+                            <input id="customer_address_line_2" type="text" name="customer_address_line_2" value="{{ old('customer_address_line_2') }}" autocomplete="address-line2" placeholder="Apartemen, suit, unit, dll. (opsional)" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                            @error('customer_address_line_2') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Kota <span class="text-red-500">*</span></label>
+                            <input type="text" name="customer_city" value="{{ old('customer_city') }}" required autocomplete="address-level2" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                            @error('customer_city') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Provinsi <span class="text-red-500">*</span></label>
+                            <input type="hidden" name="customer_province" :value="province">
+                            <select x-show="country === 'ID'" x-model="province" :disabled="country !== 'ID'" :required="country === 'ID'" autocomplete="address-level1" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                                <option value="">Pilih opsi...</option>
+                                @foreach($indonesiaProvinces as $province)
+                                    <option value="{{ $province }}">{{ $province }}</option>
+                                @endforeach
+                            </select>
+                            <input x-show="country !== 'ID'" x-model="province" :disabled="country === 'ID'" :required="country !== 'ID'" autocomplete="address-level1" placeholder="Provinsi / negara bagian" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                            @error('customer_province') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Kode pos <span class="text-red-500">*</span></label>
+                            <input type="text" name="customer_postal_code" value="{{ old('customer_postal_code') }}" required autocomplete="postal-code" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                            @error('customer_postal_code') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Telepon (opsional)</label>
+                            <input type="tel" name="customer_phone" value="{{ old('customer_phone') }}" autocomplete="tel" placeholder="08xxxxxxxxxx" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
                             @error('customer_phone') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                         </div>
+
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Alamat Pengiriman *</label>
-                            <textarea name="customer_address" rows="3" required class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">{{ old('customer_address') }}</textarea>
-                            @error('customer_address') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Alamat email <span class="text-red-500">*</span></label>
+                            <input type="email" name="customer_email" value="{{ old('customer_email') }}" required autocomplete="email" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                            @error('customer_email') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Catatan (opsional)</label>
-                            <textarea name="notes" rows="2" placeholder="Catatan untuk pesanan Anda..." class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">{{ old('notes') }}</textarea>
+
+                        <div class="border-t border-gray-100 pt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Catatan Pesanan (opsional)</label>
+                            <textarea name="notes" rows="3" placeholder="Catatan tentang pesanan Anda, misal: catatan khusus untuk pengiriman." class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">{{ old('notes') }}</textarea>
+                            @error('notes') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                         </div>
                     </div>
                 </div>

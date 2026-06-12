@@ -67,7 +67,7 @@ cart_total()  // Sum(price × quantity) untuk semua item
    └── Tampilkan form + order summary
 
 2. POST /checkout (CheckoutController@store)
-   ├── Validate input (nama, telepon, alamat, shipping_service_id)
+   ├── Validate input pelanggan + alamat terstruktur + shipping_service_id
    ├── Re-validate stok semua item di cart
    ├── Hitung subtotal + total (subtotal + shipping cost)
    ├── Ambil payment_deadline_hours dari settings
@@ -110,6 +110,8 @@ Contoh: `ORD-20260221-00001`, `ORD-20260221-00002`
 
 Saat checkout, data berikut di-snapshot ke tabel orders/order_items:
 
+- Nama lengkap dan alamat lengkap legacy → untuk kompatibilitas pesanan lama
+- Nama depan/belakang, email, telepon, negara, alamat jalan, kota, provinsi, kode pos
 - `shipping_service_name` + `shipping_cost` → dari shipping_services
 - `product_name` + `price` → dari products
 
@@ -142,7 +144,7 @@ Ini memastikan data pesanan tetap akurat meskipun harga/nama produk berubah di k
 - Tipe file: `image` (jpeg, png, jpg)
 - Max size: 2 MB
 - Hanya bisa upload jika status `pending_payment` dan belum expired
-- Verifikasi customer_phone harus cocok
+- Verifikasi telepon atau email harus cocok dengan identitas yang digunakan saat melacak pesanan
 
 ### Info Bank (dari Settings)
 
@@ -211,11 +213,11 @@ Lihat [deployment.md](deployment.md) untuk detail setup cron.
 ### Alur
 
 ```
-1. GET /track-order → Form input: order_number + customer_phone
-2. POST /track-order → Cari order by (order_number + customer_phone)
+1. GET /track-order → Form input: order_number + telepon atau email
+2. POST /track-order → Cari order berdasarkan nomor pesanan + salah satu identitas tersebut
 3. Jika ditemukan → Tampilkan:
    - Status pesanan (badge warna)
-   - Data pelanggan
+   - Data pelanggan dan alamat terstruktur
    - Daftar item pesanan
    - Total + ongkir
    - Countdown timer (jika pending_payment)
@@ -226,8 +228,16 @@ Lihat [deployment.md](deployment.md) untuk detail setup cron.
 
 ### Keamanan
 
-- Pesanan hanya bisa dilacak dengan kombinasi **order_number + customer_phone** yang tepat
+- Pesanan hanya bisa dilacak dengan kombinasi **order_number + telepon/email** yang tepat
 - Tidak ada cara melihat pesanan orang lain tanpa kedua data tersebut
+
+### Data Checkout
+
+- Wajib: nama depan, nama belakang, negara/wilayah, alamat jalan, kota, provinsi/state, kode pos, email
+- Opsional: detail alamat tambahan, telepon, catatan
+- Negara dipilih dari daftar lokal berlabel Indonesia
+- Jika negara Indonesia, provinsi dipilih dari daftar 38 provinsi
+- Untuk negara lain, provinsi/state diisi sebagai teks
 
 ---
 
