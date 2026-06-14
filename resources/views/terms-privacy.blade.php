@@ -13,12 +13,12 @@
             <div class="prose prose-gray max-w-none">
                 <h3 class="text-xl font-medium text-gray-700 mb-2">1. Penerimaan Ketentuan</h3>
                 <p class="text-gray-600 mb-4">
-                    Dengan mengakses dan menggunakan website Soeka Mitra Grosir, Anda setuju untuk terikat oleh ketentuan penggunaan ini. Jika Anda tidak setuju dengan ketentuan ini, mohon untuk tidak menggunakan layanan kami.
+                    Dengan mengakses dan menggunakan website {{ setting('store_name') }}, Anda setuju untuk terikat oleh ketentuan penggunaan ini. Jika Anda tidak setuju dengan ketentuan ini, mohon untuk tidak menggunakan layanan kami.
                 </p>
 
                 <h3 class="text-xl font-medium text-gray-700 mb-2">2. Deskripsi Layanan</h3>
                 <p class="text-gray-600 mb-4">
-                    Soeka Mitra Grosir adalah platform e-commerce yang menyediakan produk sembako (sembilan bahan pokok) untuk kebutuhan grosir. Layanan kami mencakup penjualan produk, pengelolaan keranjang belanja, checkout, dan tracking pesanan.
+                    {{ setting('store_name') }} adalah platform e-commerce yang menyediakan produk sembako (sembilan bahan pokok) untuk kebutuhan grosir. Layanan kami mencakup penjualan produk, pengelolaan keranjang belanja, checkout, dan tracking pesanan.
                 </p>
 
                 <h3 class="text-xl font-medium text-gray-700 mb-2">3. Penggunaan Layanan</h3>
@@ -56,7 +56,7 @@
 
                 <h3 class="text-xl font-medium text-gray-700 mb-2">8. Tanggung Jawab</h3>
                 <p class="text-gray-600 mb-4">
-                    Soeka Mitra Grosir berusaha memberikan layanan terbaik, namun kami tidak bertanggung jawab atas kerugian yang timbul dari penggunaan layanan ini di luar kendali kami.
+                    {{ setting('store_name') }} berusaha memberikan layanan terbaik, namun kami tidak bertanggung jawab atas kerugian yang timbul dari penggunaan layanan ini di luar kendali kami.
                 </p>
             </div>
         </section>
@@ -114,9 +114,9 @@
                 Jika Anda memiliki pertanyaan tentang ketentuan penggunaan atau kebijakan privasi ini, silakan hubungi kami melalui:
             </p>
             <div class="mt-4 text-gray-600">
-                <p>Email: soekamitragrosir@gmail.com</p>
-                <p>Telepon: 0895600060506</p>
-                <p>Alamat: Vanya Park Cluster Azura Blok C19/36, Desa/Kelurahan Pagedangan, Kec. Pagedangan, Kab. Tangerang, Provinsi Banten, Kode Pos: 15336</p>
+                <p>Email: {{ setting('store_email') }}</p>
+                <p>Telepon: {{ setting('store_phone') }}</p>
+                <p>Alamat: {{ setting('store_address') }}</p>
             </div>
         </section>
     </div>

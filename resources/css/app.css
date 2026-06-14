@@ -19,3 +19,37 @@
     --color-primary-800: #166534;
     --color-primary-900: #14532d;
 }
+
+@layer components {
+    .legal-content h2 {
+        @apply mb-3 text-xl font-semibold text-gray-900;
+    }
+
+    .legal-content p + p {
+        @apply mt-3;
+    }
+
+    .legal-content ul {
+        @apply list-disc space-y-2 pl-6;
+    }
+
+    .legal-content ol {
+        @apply list-decimal space-y-2 pl-6;
+    }
+
+    .legal-content a {
+        @apply font-medium text-green-700 underline decoration-green-200 underline-offset-2 hover:text-green-800;
+    }
+
+    .form-label {
+        @apply mb-1.5 block text-sm font-medium text-gray-700;
+    }
+
+    .form-control {
+        @apply w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-green-600 focus:ring-2 focus:ring-green-100;
+    }
+
+    .form-error {
+        @apply mt-1 text-xs text-red-600;
+    }
+}

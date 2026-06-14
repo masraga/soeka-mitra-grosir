@@ -6,6 +6,6 @@ class TermsPrivacyController extends Controller
 {
     public function index()
     {
-        return view('terms-privacy');
+        return redirect()->route('pages.privacy');
     }
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Soeka Mitra Grosir') - {{ setting('store_name', 'Soeka Mitra Grosir') }}</title>
+    <title>@yield('title', setting('store_name')) - {{ setting('store_name') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -23,7 +23,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
                         </svg>
                     </div>
-                    <span class="text-lg font-bold text-gray-900">Soeka Mitra</span>
+                    <span class="text-lg font-bold text-gray-900">{{ setting('store_name') }}</span>
                 </a>
 
                 {{-- Desktop Nav --}}
@@ -92,21 +92,29 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ setting('store_name', 'Soeka Mitra Grosir') }}</h3>
+                    <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ setting('store_name') }}</h3>
                     <p class="text-sm text-gray-500">{{ setting('store_description', 'Toko grosir sembako terpercaya') }}</p>
                 </div>
                 <div>
                     <h3 class="text-sm font-semibold text-gray-900 mb-3">Kontak</h3>
-                    <p class="text-sm text-gray-500">{{ setting('store_phone', '-') }}</p>
-                    <p class="text-sm text-gray-500">{{ setting('store_address', '-') }}</p>
+                    <p class="text-sm text-gray-500">{{ setting('store_phone') }}</p>
+                    <p class="text-sm text-gray-500">{{ setting('store_address') }}</p>
                 </div>
                 <div>
-                    <h3 class="text-sm font-semibold text-gray-900 mb-3">Tautan cepat</h3>
+                    <h3 class="text-sm font-semibold text-gray-900 mb-3">Tautan Langsung</h3>
                     <div class="space-y-2">
                         <a href="{{ route('home') }}" class="block text-sm text-gray-500 hover:text-green-600">Beranda</a>
                         <a href="{{ route('products.index') }}" class="block text-sm text-gray-500 hover:text-green-600">Produk</a>
                         <a href="{{ route('track.index') }}" class="block text-sm text-gray-500 hover:text-green-600">Lacak Pesanan</a>
-                        <a href="{{ route('terms-privacy') }}" class="block text-sm text-gray-500 hover:text-green-600">Ketentuan & Privasi</a>
+                        <a href="{{ auth()->check() ? (auth()->user()->isAdmin() ? route('admin.dashboard') : route('customer.profile')) : route('login') }}" class="block text-sm text-gray-500 hover:text-green-600">Akun Saya</a>
+                        @guest
+                            <a href="{{ route('register') }}" class="block text-sm text-gray-500 hover:text-green-600">Daftar</a>
+                        @endguest
+                        <a href="{{ route('pages.terms') }}" class="block text-sm text-gray-500 hover:text-green-600">Syarat dan Ketentuan</a>
+                        <a href="{{ route('pages.returns') }}" class="block text-sm text-gray-500 hover:text-green-600">Penukaran dan Pengembalian</a>
+                        <a href="{{ route('pages.privacy') }}" class="block text-sm text-gray-500 hover:text-green-600">Kebijakan Privasi</a>
+                        <a href="{{ route('pages.partnership') }}" class="block text-sm text-gray-500 hover:text-green-600">Kerjasama</a>
+                        <a href="{{ route('pages.contact') }}" class="block text-sm text-gray-500 hover:text-green-600">Hubungi Kami</a>
                     </div>
                 </div>
                 <div>
@@ -121,7 +129,7 @@
                 </div>
             </div>
             <div class="border-t mt-8 pt-6 flex justify-between">
-                <p class="text-xs text-gray-400">&copy; {{ date('Y') }} {{ setting('store_name', 'Soeka Mitra Grosir') }}. All rights reserved.</p>
+                <p class="text-xs text-gray-400">&copy; {{ date('Y') }} {{ setting('store_name') }}. All rights reserved.</p>
                 <p class="text-xs text-gray-400">Design by <a href="https://koderpedia.com" target="_blank" class="text-green-600 hover:underline">koderpedia</a></p>
             </div>
         </div>

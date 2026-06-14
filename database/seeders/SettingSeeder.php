@@ -20,6 +20,7 @@ class SettingSeeder extends Seeder
             ['key' => 'store_name', 'value' => 'Soeka Mitra Grosir', 'type' => 'string', 'group' => 'store', 'label' => 'Nama Toko'],
             ['key' => 'store_address', 'value' => 'Jl. Contoh No. 123, Jakarta', 'type' => 'string', 'group' => 'store', 'label' => 'Alamat Toko'],
             ['key' => 'store_phone', 'value' => '08123456789', 'type' => 'string', 'group' => 'store', 'label' => 'Nomor Telepon Toko'],
+            ['key' => 'store_email', 'value' => 'soekamitragrosir@gmail.com', 'type' => 'string', 'group' => 'store', 'label' => 'Email Toko'],
             ['key' => 'store_description', 'value' => 'Toko grosir sembako terpercaya dengan harga terjangkau', 'type' => 'string', 'group' => 'store', 'label' => 'Deskripsi Toko'],
         ];
 
